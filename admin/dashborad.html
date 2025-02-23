@@ -2,9 +2,53 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Menu</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <header>
+        <h1>Restaurant Menu</h1>
+        <div class="hamburger-menu">
+            <div class="menu-icon" onclick="toggleMenu()">☰</div>
+            <ul class="menu-options">
+                <li><a href="#">Profile</a></li>
+                <li><a href="#">Settings</a></li>
+                <li><a href="#">Logout</a></li>
+            </ul>
+        </div>
+    </header>
 
+    <main>
+        <div class="meal-list">
+            <div class="meal">
+                <img src="images/meal1.jpg" alt="Meal Image">
+                <div class="meal-info">
+                    <h2>Meal Name</h2>
+                    <p class="description">A delicious meal description.</p>
+                    <p class="price">$10.99</p>
+                    <button class="edit-btn" onclick="editMeal(this)">Edit</button>
+                    <button class="delete-btn">Delete</button>
+                </div>
+            </div>
+
+            <!-- More meals can be added dynamically here -->
+        </div>
+
+        <button class="add-meal-btn" onclick="addMeal()">+</button>
+    </main>
+
+    <div class="edit-modal hidden">
+        <div class="modal-content">
+            <h2>Edit Meal</h2>
+            <label>Name: <input type="text" id="meal-name"></label>
+            <label>Description: <textarea id="meal-description"></textarea></label>
+            <label>Price: <input type="text" id="meal-price"></label>
+            <button onclick="saveMeal()">Save</button>
+            <button onclick="closeModal()">Cancel</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
