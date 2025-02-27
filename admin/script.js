@@ -54,3 +54,25 @@ function closeModal() {
 function addMeal() {
     alert("Feature to add meals coming soon!");
 }
+  let currentTable = null;
+
+        function showPopup(number, status, seats) {
+            currentTable = number;
+            document.getElementById('popup-content').innerText = `Table ${number}`;
+            document.getElementById('status').value = status;
+            document.getElementById('seats').value = seats;
+            document.getElementById('popup').style.display = 'block';
+        }
+
+        function closePopup() {
+            document.getElementById('popup').style.display = 'none';
+        }
+
+        function saveChanges() {
+            const newStatus = document.getElementById('status').value;
+            const newSeats = document.getElementById('seats').value;
+            const tableElement = document.querySelector(`.circle-container .table:nth-child(${currentTable})`);
+            tableElement.className = `table ${newStatus}`;
+            alert(`Table ${currentTable} updated: Status - ${newStatus}, Seats - ${newSeats}`);
+            closePopup();
+        }
