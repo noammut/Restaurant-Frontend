@@ -8,15 +8,16 @@
 <body>
     <h1>Restaurant Admin Login</h1>
     
-    <form action="/admin/dashboard" method="POST">
+    <div>
         <label for="username">Username:</label><br>
         <input type="text" id="username" name="username" required><br><br>
 
         <label for="password">Password:</label><br>
         <input type="password" id="password" name="password" required><br><br>
 
-        <button type="submit">Login</button>
-    </form>
+        <button onclick="login()">Login</button>
+    </div>
+    <script src="script.js"></script>
 
 </body>
 </html>
