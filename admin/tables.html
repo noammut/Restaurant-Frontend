@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Tables</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        .top-bar {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            align-items: center;
+        }
+        .user-name {
+            font-size: 18px;
+            margin-right: 10px;
+        }
+        .hamburger-menu {
+            cursor: pointer;
+            font-size: 24px;
+        }
+        .switch-button {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .circle-container {
+            width: 80vh;
+            height: 80vh;
+            border-radius: 50%;
+            background-color: white;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        .table {
+            width: 60px;
+            height: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            color: white;
+            margin: 10px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .Available { background-color: green; }
+        .Taken { background-color: red; }
+        .Reserved { background-color: blue; }
+        .popup {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+        .popup button {
+            margin-top: 10px;
+            padding: 5px 10px;
+            background-color: red;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <div class="user-name">User Name</div>
+        <div class="hamburger-menu">&#9776;</div>
+    </div>
+    <button class="switch-button">Switch Tables</button>
+    <div class="circle-container">
+        <div class="table Available" onclick="showPopup(1, 'Available', 4)">1</div>
+        <div class="table Taken" onclick="showPopup(2, 'Taken', 2)">2</div>
+        <div class="table Available" onclick="showPopup(3, 'Available', 6)">3</div>
+        <div class="table Available" onclick="showPopup(4, 'Available', 4)">4</div>
+        <div class="table Taken" onclick="showPopup(5, 'Taken', 3)">5</div>
+        <div class="table Reserved" onclick="showPopup(6, 'Reserved', 5)">6</div>
+    </div>
+
+    <div id="popup" class="popup">
+        <p id="popup-content"></p>
+        <label for="status">Status:</label>
+        <select id="status">
+            <option value="Available">Available</option>
+            <option value="Taken">Taken</option>
+            <option value="Reserved">Reserved</option>
+        </select>
+        <br>
+        <label for="seats">Seats:</label>
+        <input type="number" id="seats">
+        <br>
+        <button onclick="saveChanges()">Save</button>
+        <button onclick="closePopup()">Close</button>
+        <button onclick="closePopup()">edit order</button>
+    </div>
+
+    <script>
+        let currentTable = null;
+
+        function showPopup(number, status, seats) {
+            currentTable = number;
+            document.getElementById('popup-content').innerText = `Table ${number}`;
+            document.getElementById('status').value = status;
+            document.getElementById('seats').value = seats;
+            document.getElementById('popup').style.display = 'block';
+        }
+
+        function closePopup() {
+            document.getElementById('popup').style.display = 'none';
+        }
+
+        function saveChanges() {
+            const newStatus = document.getElementById('status').value;
+            const newSeats = document.getElementById('seats').value;
+            const tableElement = document.querySelector(`.circle-container .table:nth-child(${currentTable})`);
+            tableElement.className = `table ${newStatus}`;
+            alert(`Table ${currentTable} updated: Status - ${newStatus}, Seats - ${newSeats}`);
+            closePopup();
+        }
+    </script>
+</body>
+</html>
