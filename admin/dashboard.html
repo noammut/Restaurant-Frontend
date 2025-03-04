@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Menu</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Restaurant Menu</h1>
+        <div class="hamburger-menu">
+            <div class="menu-icon" onclick="toggleMenu()">☰</div>
+            <ul class="menu-options">
+                <li><a href="#">Profile</a></li>
+                <li><a href="#">Settings</a></li>
+                <li><a href="#">Logout</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Description</th>
+                    <th>Food Type</th>
+                    <th>Image</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>    
+                    <!-- This is a example of data -->    
+                    <td>1</td>
+                    <td>Pizza</td>
+                    <td>$10.99</td>
+                    <td>Delicious cheese pizza</td>
+                    <td>Fast Food</td>
+                    <td><img src="https://www.allrecipes.com/thmb/0xH8n2D4cC97t7mcC7eT2SDZ0aE=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/6776_Pizza-Dough_ddmfs_2x1_1725-fdaa76496da045b3bdaadcec6d4c5398.jpg" alt="Pizza" width="50"></td>
+                     <td><button onclick="openEditForm(this)">Edit</button></td>
+                    <td><button>Delete</button></td>
+                </tr>
+               
+            </tbody>
+        </table>
+
+        <button class="add-meal-btn" onclick="addMeal()">+</button>
+    </main>
+
+    <div id="editModal" class="edit-modal">
+        <div class="modal-content">
+            <h2>Edit Meal</h2>  
+            <label id="edit-id">ID: </label><br>          
+            <label>Name:</label>
+            <input type="text" id="edit-name"><br>
+    
+            <label>Price:</label>
+            <input type="text" id="edit-price"><br>
+    
+            <label>Description:</label>
+            <input type="text" id="edit-description"><br>
+    
+            <label>Food Type:</label>
+            <select id="edit-food-type"></select><br>
+    
+            <label>Image URL:</label>
+            <input type="text" id="edit-image"><br>
+    
+            <button onclick="saveEdit()">Save</button>
+            <button onclick="closeModal()">Cancel</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
