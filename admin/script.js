@@ -105,7 +105,7 @@ function saveEdit() {
         price: price,
         description: description,
         food_type: foodType,
-        image_url: imageUrl
+        image: imageUrl
     })
     .then(response => {
         if (response.data.success) {
