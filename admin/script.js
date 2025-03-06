@@ -163,7 +163,6 @@ async function getMeals() {
         mealsTableBody.innerHTML = '';
         
         for (const meal of response.data.meals) {
-            const foodTypeName = await fetchFoodTypeById(meal.food_type);
             
             const row = document.createElement('tr');
             row.innerHTML = `
@@ -171,7 +170,7 @@ async function getMeals() {
                 <td>${meal.name}</td>
                 <td>$${meal.price}</td>
                 <td>${meal.description}</td>
-                <td>${foodTypeName}</td>
+                <td>${meal.foodType}</td>
                 <td><img src="${meal.image_url}" alt="${meal.name}" width="50"></td>
                 <td><button onclick="openEditForm(this)">Edit</button></td>
                 <td><button onclick="deleteMeal(${meal.id})">Delete</button></td>
@@ -184,3 +183,7 @@ async function getMeals() {
         alert('Failed to fetch meals');
     }
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    getMeals();
+});

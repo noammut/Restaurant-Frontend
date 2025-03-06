@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Restaurant Menu</title>
     <link rel="stylesheet" href="styles.css">
+    
 </head>
 <body>
     <header>
@@ -29,23 +30,14 @@
                     <th>Description</th>
                     <th>Food Type</th>
                     <th>Image</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>    
-                    <!-- This is a example of data -->    
-                    <td>1</td>
-                    <td>Pizza</td>
-                    <td>$10.99</td>
-                    <td>Delicious cheese pizza</td>
-                    <td>Fast Food</td>
-                    <td><img src="https://www.allrecipes.com/thmb/0xH8n2D4cC97t7mcC7eT2SDZ0aE=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/6776_Pizza-Dough_ddmfs_2x1_1725-fdaa76496da045b3bdaadcec6d4c5398.jpg" alt="Pizza" width="50"></td>
-                     <td><button onclick="openEditForm(this)">Edit</button></td>
-                    <td><button>Delete</button></td>
-                </tr>
-               
+            <tbody id="meals-list"> <!-- Ensure this ID matches -->
             </tbody>
         </table>
+        
 
         <button class="add-meal-btn" onclick="addMeal()">+</button>
     </main>
@@ -73,7 +65,8 @@
             <button onclick="closeModal()">Cancel</button>
         </div>
     </div>
-
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="script.js"></script>
+    
 </body>
 </html>
