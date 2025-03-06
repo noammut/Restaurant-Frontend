@@ -90,12 +90,56 @@
             border: none;
             cursor: pointer;
         }
+
+        .hamburger-menu {
+    position: relative;
+}
+
+.menu-icon {
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.menu-options {
+    list-style: none;
+    position: absolute;
+    top: 30px;
+    right: 0;
+    background: white;
+    padding: 10px;
+    display: none;
+    border-radius: 5px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.menu-options li {
+    padding: 5px 10px;
+}
+
+.menu-options li a {
+    text-decoration: none;
+    color: black;
+}
+
+.meal-list {
+    padding: 20px;
+}
     </style>
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="top-bar">
         <div class="user-name">User Name</div>
-        <div class="hamburger-menu">&#9776;</div>
+        <div class="hamburger-menu">
+            <div class="menu-icon" onclick="toggleMenu()">☰</div>
+            <ul class="menu-options">
+                <li><a href="#">Profile</a></li>
+                <li><a href="#">Settings</a></li>
+                <li><a href="dashboard.html">dashboard</a></li>
+                <li><a href="login.html">Logout</a></li>
+
+            </ul>
+        </div>
     </div>
     <button class="switch-button">Switch Tables</button>
     <div class="circle-container">
@@ -146,6 +190,11 @@
             tableElement.className = `table ${newStatus}`;
             alert(`Table ${currentTable} updated: Status - ${newStatus}, Seats - ${newSeats}`);
             closePopup();
+        }
+
+        function toggleMenu() {
+            const menu = document.querySelector(".menu-options");
+            menu.style.display = menu.style.display === "block" ? "none" : "block";
         }
     </script>
 </body>
