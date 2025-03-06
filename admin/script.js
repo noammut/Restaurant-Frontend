@@ -51,10 +51,18 @@ function editMeal(button) {
     document.getElementById("edit-description").value = description;
     document.getElementById("edit-image").value = imageUrl;
 
-
+    // Fetch food types and set the current one
+    fetchFoodTypes();
     let dropdown = document.getElementById("edit-food-type");
-    dropdown.value = foodType;
-    
+    for (let option of dropdown.options) {
+        console.log(option.text, foodType);
+        if (option.text.trim() === foodType.trim()) {
+            console.log("Matched");
+            option.selected = true;
+            break;
+        }
+    }    
+    dropdown.dispatchEvent(new Event('change'));
 }
 
 function openEditForm(button) {
@@ -91,31 +99,54 @@ function fetchFoodTypeById(foodTypeId) {
         });
 }
 
-function saveEdit() {
-    let id = document.getElementById("edit-id").value;
+async function fetchFoodTypes() {
+    try {
+        const response = await axios.get(`http://${IP}:5000/foodtype`);
+        const foodTypes = response.data;
+        const dropdown = document.getElementById("edit-food-type");
+        dropdown.innerHTML = ""; // Clear existing options
+
+        for (const foodType of foodTypes) {
+            const option = document.createElement("option");
+            option.value = foodType.id;
+            option.textContent = foodType.name;
+            dropdown.appendChild(option);
+        }
+    }
+    catch (error) {
+        console.error("Error fetching food types:", error);
+    }
+}
+
+async function saveEdit() {
+    let id_label = document.getElementById('edit-id');
+    let id = id_label.textContent.replace('ID: ', '');
     let name = document.getElementById("edit-name").value;
     let price = document.getElementById("edit-price").value;
     let description = document.getElementById("edit-description").value;
     let foodType = document.getElementById("edit-food-type").value;
     let imageUrl = document.getElementById("edit-image").value;
 
-    axios.post('/update_meal', {
-        id: id,
-        name: name,
-        price: price,
-        description: description,
-        food_type: foodType,
-        image: imageUrl
-    })
-    .then(response => {
-        if (response.data.success) {
+    try {
+        const response = await axios.put(`http://${IP}:5000/meal`, {
+            id: id,
+            name: name,
+            price: price,
+            image: imageUrl,
+            description: description,
+            foodType: foodType
+        });
+        closeModal();
+        if (response.status === 200) {
             alert("Meal updated successfully!");
             location.reload(); // Refresh to show changes
         } else {
             alert("Failed to update meal.");
         }
-    })
-    .catch(error => console.error("Error updating meal:", error));
+    } catch (error) {
+        console.error("Error updating meal:", error);
+    }
+    
 }
 
 
@@ -153,12 +184,12 @@ async function addMeal() {
     const image_url = document.getElementById('meal-image').value;
 
     try {
-        await axios.post(`http://${IP}:5000/meals`, {
+        await axios.post(`http://${IP}:5000/meal`, {
             name: name,
             price: parseFloat(price),
             description: description,
-            food_type: food_type,
-            image_url: image_url
+            foodType: food_type,
+            image: image_url
         });
         
         // Clear form fields
@@ -175,6 +206,19 @@ async function addMeal() {
     } catch (error) {
         console.error('Error adding meal:', error);
         alert('Failed to add meal');
+    }
+}
+
+async function deleteMeal(id) {
+    try {
+        await axios.delete(`http://${IP}:5000/meal`, { 
+            data: { id: id }
+        });
+        alert('Meal deleted successfully!');
+        getMeals();
+    } catch (error) {
+        console.error('Error deleting meal:', error);
+        alert('Failed to delete meal');
     }
 }
 
