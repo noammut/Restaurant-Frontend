@@ -1,22 +1,24 @@
-async function login() {
-    // const username = document.getElementById('username').value;
-    // const password = document.getElementById('password').value;
-    // try {
-    //     await axios.post('http://127.0.0.1:5000/login', {
-    //         username: username,
-    //         password: password,
-    //     });
-        
-    //     // Clear form fields
-    //     document.getElementById('username').value = '';
-    //     document.getElementById('password').value = '';
-        
-    // } catch (error) {
-    //     alert('Login Failed');
-    //     console.error('Login error: Invalid credentials', error);
-    // }
+let IP = '192.168.16.76'
 
-    window.location.href = 'dashboard.html'
+async function login() {
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    try {
+        await axios.post(`http://192.168.16.76:5000/login`, {
+            username: username,
+            password: password,
+        });
+        alert('Login successful');
+        // Clear form fields
+        document.getElementById('username').value = '';
+        document.getElementById('password').value = '';
+        
+    } catch (error) {
+        alert('Login Failed');
+        console.error('Login error: Invalid credentials', error);
+    }
+
+    // window.location.href = 'dashboard.html'
 }
 
 function toggleMenu() {
@@ -74,19 +76,19 @@ function openEditForm(button) {
     
 }
 
-function fetchFoodTypes() {
-    return axios.get('/food_types')  // Fetch food types from backend
+function fetchFoodTypeById(foodTypeId) {
+    return axios.get(`http://${IP}:5000/food_types/${foodTypeId}`)  // Fetch specific food type by ID
         .then(response => {
-            let dropdown = document.getElementById("edit-food-type");
-            dropdown.innerHTML = ""; // Clear existing options
-            response.data.forEach(foodType => {
-                let option = document.createElement("option");
-                option.value = foodType.id; // Assuming 'id' is in the database
-                option.textContent = foodType.name;
-                dropdown.appendChild(option);
-            });
+            if (response.data && response.data.name) {
+                return response.data.name; // Return the food type name
+            } else {
+                throw new Error("Invalid response format");
+            }
         })
-        .catch(error => console.error("Error fetching food types:", error));
+        .catch(error => {
+            console.error("Error fetching food type:", error);
+            return null; // Return null in case of an error
+        });
 }
 
 function saveEdit() {
@@ -129,7 +131,7 @@ async function addMeal() {
     const image_url = document.getElementById('meal-image').value;
 
     try {
-        await axios.post('http://127.0.0.1:5000/meals', {
+        await axios.post(`http://${IP}:5000/meals`, {
             name: name,
             price: parseFloat(price),
             description: description,
@@ -154,26 +156,30 @@ async function addMeal() {
     }
 }
 
-async function getMeals(){
+async function getMeals() {
     try {
-        const response = await axios.get('http://127.0.0.1:5000/meals');
-        const mealsList = document.getElementById('meals-list');
-        mealsList.innerHTML = '';
-        response.data.meals.forEach(meal => {
-            mealsList.innerHTML += `
-                <div class="meal">
-                    <h2>${meal.name}</h2>
-                    <p class="description">${meal.description}</p>
-                    <p class="price">$${meal.price}</p>
-                    <p class="food-type">${meal.food_type}</p>
-                    <img src="${meal.image_url}" alt="${meal.name}">
-                    <button onclick="editMeal(this)">Edit</button>
-                    <button onclick="deleteMeal(${meal.id})">Delete</button>
-                </div>
+        const response = await axios.get(`http://${IP}:5000/meal`);
+        const mealsTableBody = document.getElementById('meals-list');
+        mealsTableBody.innerHTML = '';
+        
+        for (const meal of response.data.meals) {
+            const foodTypeName = await fetchFoodTypeById(meal.food_type);
+            
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${meal.id}</td>
+                <td>${meal.name}</td>
+                <td>$${meal.price}</td>
+                <td>${meal.description}</td>
+                <td>${foodTypeName}</td>
+                <td><img src="${meal.image_url}" alt="${meal.name}" width="50"></td>
+                <td><button onclick="openEditForm(this)">Edit</button></td>
+                <td><button onclick="deleteMeal(${meal.id})">Delete</button></td>
             `;
-        });
-    }
-    catch (error) {
+            
+            mealsTableBody.appendChild(row);
+        }
+    } catch (error) {
         console.error('Error fetching meals:', error);
         alert('Failed to fetch meals');
     }
