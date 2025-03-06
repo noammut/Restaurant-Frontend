@@ -12,13 +12,14 @@ async function login() {
         // Clear form fields
         document.getElementById('username').value = '';
         document.getElementById('password').value = '';
+        window.location.href = 'dashboard.html'
         
     } catch (error) {
         alert('Login Failed');
         console.error('Login error: Invalid credentials', error);
     }
 
-    // window.location.href = 'dashboard.html'
+    
 }
 
 function toggleMenu() {
