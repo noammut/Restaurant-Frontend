@@ -156,7 +156,7 @@ async function addMeal() {
 
 async function getMeals(){
     try {
-        const response = await axios.get('http://127.0.0.1:5000/meals');
+        const response = await axios.get('http://127.0.0.1:5000/meal');
         const mealsList = document.getElementById('meals-list');
         mealsList.innerHTML = '';
         response.data.meals.forEach(meal => {
