@@ -119,9 +119,31 @@ function saveEdit() {
 }
 
 
+// Show modal with animation
+function openModal(button) {
+    editMeal(button);
+    const modal = document.getElementById('editModal');
+    modal.style.display = 'flex';
+    setTimeout(() => {
+      modal.classList.add('active');
+    }, 10);
+  }
+  
+  // Close modal with animation
 function closeModal() {
-    document.querySelector(".edit-modal").style.display = "none";
-}
+    const modal = document.getElementById('editModal');
+    const modalContent = document.querySelector('.modal-content');
+    
+    modalContent.classList.add('modal-closing');
+    
+    setTimeout(() => {
+      modal.classList.remove('active');
+      setTimeout(() => {
+        modal.style.display = 'none';
+        modalContent.classList.remove('modal-closing');
+      }, 300);
+    }, 300);
+  }
 
 async function addMeal() {
     const name = document.getElementById('meal-name').value;
@@ -171,8 +193,8 @@ async function getMeals() {
                 <td>$${meal.price}</td>
                 <td>${meal.description}</td>
                 <td>${meal.foodType}</td>
-                <td><img src="${meal.image_url}" alt="${meal.name}" width="50"></td>
-                <td><button onclick="openEditForm(this)">Edit</button></td>
+                <td><img src="${meal.image}" alt="${meal.name}" width="50"></td>
+                <td><button onclick="openModal(this)">Edit</button></td>
                 <td><button onclick="deleteMeal(${meal.id})">Delete</button></td>
             `;
             
